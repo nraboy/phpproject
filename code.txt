@@ -1,0 +1,50 @@
+class ReportHelper {
+	
+	var c;
+
+	constructor()
+	{
+		c = new DatabaseClient("testhost.mydatabase.org")
+	}
+
+
+	get_customers_in_city(city)
+	{
+		var a = c.getDatabase("example").getTable("customers")
+		var cst[] = a.find({ "cityname" : city }).asArray()
+		var numcust = cst.length()
+		return numcust
+	}
+
+	getCities()
+	{
+	   var u = new List()
+	   var a = c.getDatabase("example").table("customers")
+	   var cst[] = a.find().asArray()
+	   for (cty in cst) {
+	   if (!u.contains(cty.city)) {
+	   	    u.append(cty.city)
+	   	 }
+	   }
+	   return u
+	}
+
+}
+
+main()
+{
+	n = new ReportHelper();
+	cts = new Array()
+
+	uc = n.getCities()
+	for (c in uc) {
+		cc = get_customers_in_city(c)
+		cts.append(cc)
+		cts = cts.quicksort(SORT.decreasing)
+	}
+
+	for ( i in range(1,10) ) {
+	   print(cts.getAt(i))
+	}
+
+}
